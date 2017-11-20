@@ -12,7 +12,7 @@ testXml = testXml .. '<testTwo paramTwo="param2value">'
 testXml = testXml .. '<testThree>'
 testXml = testXml .. 'testThreeValue'
 testXml = testXml .. '</testThree>'
-testXml = testXml .. '<testThree duplicate="one" duplicate="two">'
+testXml = testXml .. '<testThree duplicate="one" attr1="a1" attr2=a2" duplicate="two">'
 testXml = testXml .. 'testThreeValueTwo'
 testXml = testXml .. '</testThree>'
 testXml = testXml .. '<test_Four something="else">'
@@ -48,6 +48,9 @@ if parsedXml.testOne.testTwo.testThree[1]:value() ~= "testThreeValue" then error
 if parsedXml.testOne.testTwo.testThree[2]:value() ~= "testThreeValueTwo" then error("Second of duplicate nodes value not set") end
 if parsedXml.testOne.testTwo.testThree[2]["@duplicate"][1] ~= "one" then error("First of duplicate parameters not set") end
 if parsedXml.testOne.testTwo.testThree[2]["@duplicate"][2] ~= "two" then error("Second of duplicate parameters not set") end
+if parsedXml.testOne.testTwo.testThree[2]:properties()[1].name ~= "duplicate" then error("Second of duplicate parameters not set") end
+if parsedXml.testOne.testTwo.testThree[2]:properties()[1].value[1] ~= "one" then error("Second of duplicate parameters not set") end
+if parsedXml.testOne.testTwo.testThree[2]:properties()[1].value[2] ~= "two" then error("Second of duplicate parameters not set") end
 
 -- deep element test
 
@@ -71,7 +74,6 @@ node:addChild(childNode)
 if type(node:children()) ~= "table" then error("children function test failed") end
 if #node:children() ~= 1 then error("AddChild function test failed") end
 if node:numChildren() ~= 1 then error("numChildren function test failed") end
-
 
 node:addProperty("name", "value")
 
