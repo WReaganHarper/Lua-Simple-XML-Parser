@@ -42,6 +42,10 @@ function newParser()
             function(h)
                 return string.char(tonumber(h, 10))
             end);
+	value = string.gsub(value, "^<!%[CDATA%[(.-)%]%]>",
+	    function(cdata)
+		return cdata
+	    end);
         value = string.gsub(value, "&quot;", "\"");
         value = string.gsub(value, "&apos;", "'");
         value = string.gsub(value, "&gt;", ">");
